@@ -1,1 +1,48 @@
-<p>create-questionnaire works!</p>
+<h1>Tworzenie nowej ankiety</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Tytuł ankiety</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Opis ankiety</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <div class="questions" formArrayName="questions">
+        <h2>Pytania</h2>
+        <div>
+            @for (question of questions.controls; track question; let idx = $index) {
+                <mat-card>
+                    <mat-card-content>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Pytanie</mat-label>
+                                <input matInput [formControlName]="idx" placeholder="Napisz pytanie do ankietowanego">
+                            </mat-form-field>
+                            <mat-chip-listbox aria-label="Type of inputs">
+                                @for (type of inputTypes; track $index) {
+                                    <mat-chip-option>{{type.translation}}</mat-chip-option>
+                                }
+                            </mat-chip-listbox>
+                        </div>                    
+                        <button mat-icon-button color="warn" matTooltip="Usuń" (click)="removeQuestion(idx)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </mat-card-content>
+                </mat-card>
+            }
+
+            <button mat-stroked-button color="accent" (click)="addQuestion()"><mat-icon>add</mat-icon>Pytanie</button>
+        </div>
+    </div>
+    <div>
+        <button mat-fab color="warn" class="custom-fab left" matTooltip="Anuluj">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-fab color="primary" class="custom-fab right" type="submit" matTooltip="Zapisz">
+            <mat-icon>done</mat-icon>
+          </button>
+    </div>  
+</form>
