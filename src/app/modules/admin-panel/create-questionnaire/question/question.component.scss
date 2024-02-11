@@ -1,0 +1,27 @@
+mat-card-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.question {
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.answers > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.custom-action {
+    display: flex;
+    justify-content: center;
+}

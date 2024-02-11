@@ -1,10 +1,13 @@
 <header>
     <h1>Lista ankiet</h1>
     <button mat-stroked-button color="primary" routerLink="questionnaire"
-    routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>add</mat-icon>Ankieta</button>
+    routerLinkActive="active" ariaCurrentWhenActive="page"><mat-icon>add</mat-icon>Nowa ankieta</button>
 </header>
-@for (data of dataSource; track $index) {
-    <p>{{data}}</p>
-} @empty {
-    <p>no content</p>
-}
+<div class="container">
+    @for (data of dataSource; track $index) {
+        <app-list-item [item]="data" (rowEvent)="rowEvent($event)"></app-list-item>
+    } @empty {
+        <p>no content</p>
+    }
+</div>
+

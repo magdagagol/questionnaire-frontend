@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-card-content>
+        <div class="question" [formGroup]="questions">
+            <mat-form-field appearance="outline">
+                <mat-label>Pytanie</mat-label>
+                <input matInput formControlName="question" placeholder="Napisz pytanie do ankietowanego">
+                <!-- <span matTextPrefix>Pytanie: &nbsp;</span> -->
+            </mat-form-field>
+            <mat-chip-listbox #list aria-label="Type of inputs">
+                @for (type of inputTypes; track $index) {
+                    @if ($first) {<mat-chip-option [value]="type.type" selected>{{type.translation}}</mat-chip-option>}
+                    <mat-chip-option [value]="type.type" (click)="select()">{{type.translation}}</mat-chip-option>
+                }
+            </mat-chip-listbox>
+
+                <div class="answers" formArrayName="answers">
+                    @for (answer of answers.controls; track answer; let ida = $index) {
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Odpowiedź</mat-label>
+                                <input matInput [formControlName]="ida" placeholder="Napisz odpowiedź">
+                                <!-- <span matTextPrefix>Odpowiedź: &nbsp;</span> -->
+                                <button matSuffix mat-icon-button color="warn" matTooltip="Usuń" (click)="removeAnswer(ida)">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
+                            </mat-form-field>
+                        </div>
+                    }
+                </div>
+                <div class="custom-action">
+                    <button mat-stroked-button color="accent" (click)="addAnswer()"><mat-icon>add</mat-icon>Odpowiedź</button>
+                </div>
+                
+        </div>                    
+        <button mat-icon-button color="warn" matTooltip="Usuń" (click)="removeQuestion(idx)">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </mat-card-content>
+</mat-card>
