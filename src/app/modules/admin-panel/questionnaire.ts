@@ -17,6 +17,7 @@ export interface Question {
     id: number;
     title: string;
     answers: Answer[];
+    type: string;
 }
 
 export interface Answer {

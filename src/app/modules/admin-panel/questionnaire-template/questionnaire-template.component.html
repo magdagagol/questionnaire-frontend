@@ -1,0 +1,43 @@
+<div>
+    <h3>{{template.title}}</h3>
+
+    @if(template.description){
+        <p>{{template.description}}</p>
+    }
+    <form [formGroup]="dynamicForm" (ngSubmit)="submitDynamic()">
+        @for (question of template.questions; track question.id; let idx = $index) {
+            <p style="font-weight: 500;">Pytanie {{idx+1}}: {{question.title}}</p>
+            @for (answer of question.answers; track answer.id) {
+                @switch (question.type) {
+                    @case ('TEXT') {
+                        <mat-form-field>
+                            <mat-label>{{answer.label}}</mat-label>
+                            <input matInput formControlName="{{answer.id}}">
+                        </mat-form-field>
+                    }
+                    @case ('TEXT_AREA') {
+                        <mat-form-field>
+                            <mat-label>{{answer.label}}</mat-label>
+                            <textarea matInput formControlName="{{answer.id}}"></textarea>
+                        </mat-form-field>
+                    }
+                    @case ('CHECKBOX') {
+                        <mat-checkbox formControlName="{{answer.id}}">{{answer.label}}</mat-checkbox>
+                    }
+                    @case ('RADIO') {
+                        <mat-radio-button formControlName="{{answer.id}}" value="1">{{answer.label}}</mat-radio-button>
+                    }
+                    @case ('SLIDER') {
+                        <mat-label>{{answer.label}}</mat-label>
+                        <mat-slider [min]="10" [max]="1000"><input formControlName="{{answer.id}}" matSliderThumb></mat-slider>
+                    }
+                    @default {
+                      Default case.
+                    }
+                  }
+                
+            }
+        }
+        <button mat-raised-button type="submit">Zapisz wyniki</button>
+    </form>
+</div>

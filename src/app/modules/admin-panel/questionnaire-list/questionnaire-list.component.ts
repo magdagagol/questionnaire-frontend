@@ -46,6 +46,9 @@ export class QuestionnaireListComponent implements OnInit{
   rowEvent(e: OnRowItemEvent){
     if(e.action === 'EDIT') {
       console.log('event', e.item.id)
+
+    }
+    if(e.action === 'SHOW') {
       this.router.navigate([`/admin-panel/${e.item.id}`]);
     }
     if(e.action === 'DELETE') {

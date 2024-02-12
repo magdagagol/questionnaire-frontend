@@ -26,4 +26,13 @@ import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/rou
 })
 export class AdminPanelComponent {
 
+  constructor(private router: Router){}
+
+  goToQuestionnaireList(){
+    this.router.navigateByUrl('/admin-panel');
+  }
+
+  goToNewQuestionnaire(){
+    this.router.navigateByUrl('admin-panel/questionnaire');
+  }
 }
