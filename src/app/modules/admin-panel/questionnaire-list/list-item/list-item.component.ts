@@ -42,4 +42,8 @@ export class ListItemComponent {
   show(){
     this.rowEvent.emit(new OnRowItemEvent('SHOW', this.item));
   }
+
+  results(){
+    this.rowEvent.emit(new OnRowItemEvent('RESULTS', this.item));
+  }
 }

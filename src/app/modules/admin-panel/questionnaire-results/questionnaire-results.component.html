@@ -1,0 +1,11 @@
+<h2>Wyniki dla ankiety: {{template.title}}</h2>
+@if (template.description) {
+    <p>{{template.description}}</p>
+}
+
+@for (question of template.questions; track question.id) {
+    <h3 style="font-weight: 500;">{{question.title}}</h3>
+    @for(answer of question.answers; track answer.id){
+        <p>{{answer.label}}: {{answer.value}}</p> 
+    }
+}

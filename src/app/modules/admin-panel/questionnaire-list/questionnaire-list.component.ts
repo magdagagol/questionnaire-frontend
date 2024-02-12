@@ -51,6 +51,9 @@ export class QuestionnaireListComponent implements OnInit{
     if(e.action === 'SHOW') {
       this.router.navigate([`/admin-panel/${e.item.id}`]);
     }
+    if(e.action === 'RESULTS'){
+      this.router.navigate([`/admin-panel/${e.item.id}/results`]);
+    }
     if(e.action === 'DELETE') {
       this.dialog.open(ConfirmationDialogComponent, {width: '400px'}).afterClosed().pipe(
         filter(Boolean),

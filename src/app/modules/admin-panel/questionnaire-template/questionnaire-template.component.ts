@@ -54,9 +54,6 @@ export class QuestionnaireTemplateComponent {
   ngOnInit(): void {
     this.template = this.activatedRoute.snapshot.data['template'];
 
-    console.log('template',this.template)
-
-
     this.template.questions.forEach(question => {
         question.answers.forEach(answer => {
           this.dynamicForm.addControl(`${answer.id}`, new FormControl(''))
