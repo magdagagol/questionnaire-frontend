@@ -3,12 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BasicInfoTemplate } from '../../questionnaire';
 
 export class OnRowItemEvent {
   action: string;
-  item: any;
+  item: BasicInfoTemplate;
 
-  constructor(action: string, item: any){
+  constructor(action: string, item: BasicInfoTemplate){
     this.action = action;
     this.item = item;
   }
@@ -27,7 +28,7 @@ export class OnRowItemEvent {
   styleUrl: './list-item.component.scss'
 })
 export class ListItemComponent {
-  @Input() item: any;
+  @Input() item: BasicInfoTemplate;
   @Output() rowEvent = new EventEmitter<OnRowItemEvent>();
 
   delete(){

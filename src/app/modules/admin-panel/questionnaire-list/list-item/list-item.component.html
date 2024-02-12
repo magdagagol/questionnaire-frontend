@@ -1,6 +1,9 @@
 <mat-card>
     <mat-card-header>
         <mat-card-title>{{item.title}}</mat-card-title>
+        @if (item.description) {
+            <mat-card-subtitle>{{item.description}}</mat-card-subtitle>
+        }
     </mat-card-header>
     <mat-card-actions align="end">
         <button mat-icon-button color="warn" (click)="delete()" matTooltip="Usuń"><mat-icon>clear</mat-icon></button>

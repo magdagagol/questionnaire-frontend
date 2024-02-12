@@ -3,7 +3,7 @@
         <div class="question" [formGroup]="questions">
             <mat-form-field appearance="outline">
                 <mat-label>Pytanie</mat-label>
-                <input matInput formControlName="question" placeholder="Napisz pytanie do ankietowanego">
+                <input matInput formControlName="title" placeholder="Napisz pytanie do ankietowanego">
                 <!-- <span matTextPrefix>Pytanie: &nbsp;</span> -->
             </mat-form-field>
             <mat-chip-listbox #list aria-label="Type of inputs">
@@ -15,10 +15,10 @@
 
                 <div class="answers" formArrayName="answers">
                     @for (answer of answers.controls; track answer; let ida = $index) {
-                        <div>
+                        <div formGroupName="{{ida}}">
                             <mat-form-field appearance="outline">
                                 <mat-label>Odpowiedź</mat-label>
-                                <input matInput [formControlName]="ida" placeholder="Napisz odpowiedź">
+                                <input matInput formControlName="label" placeholder="Napisz odpowiedź">
                                 <!-- <span matTextPrefix>Odpowiedź: &nbsp;</span> -->
                                 <button matSuffix mat-icon-button color="warn" matTooltip="Usuń" (click)="removeAnswer(ida)">
                                     <mat-icon>close</mat-icon>
@@ -28,7 +28,7 @@
                     }
                 </div>
                 <div class="custom-action">
-                    <button mat-stroked-button color="accent" (click)="addAnswer()"><mat-icon>add</mat-icon>Odpowiedź</button>
+                    <button mat-stroked-button color="accent" type="button" (click)="addAnswer()"><mat-icon>add</mat-icon>Odpowiedź</button>
                 </div>
                 
         </div>                    

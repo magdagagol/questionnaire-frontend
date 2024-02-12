@@ -58,24 +58,17 @@ export class QuestionComponent implements OnInit{
   constructor(){}
 
   ngOnInit(): void {
-    console.log("'array", this.parentFormArray.at(this.idx), this.idx)
-    console.log('aaa', this.questions.controls)
-
-    this.questions.addControl('question', new FormControl(''));
+    this.questions.addControl('title', new FormControl(''));
     this.questions.addControl('answers', new FormArray([]));
     this.questions.addControl('type', new FormControl(''));
-      
   }
 
   select(): void {
-    console.log('selected', (this.list.selected as MatChipOption).value);
     this.selectedInputType = (this.list.selected as MatChipOption).value;
-
     this.type.setValue(((this.list.selected as MatChipOption).value));
   }
 
   removeQuestion(idx: number){
-    console.log('remove', idx)
     this.remove.emit(idx);
   }
 
@@ -88,12 +81,12 @@ export class QuestionComponent implements OnInit{
   } 
 
   addAnswer(){
-    console.log('aaa', this.answers)
-    this.answers.push(new FormControl(''));
+    this.answers.push(new FormGroup({
+      label: new FormControl()
+    }));
   }
 
   removeAnswer (item: number){
-    console.log('aaa', this.answers)
     this.answers.removeAt(item)
   }
 

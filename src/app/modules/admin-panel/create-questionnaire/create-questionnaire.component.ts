@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { QuestionComponent } from './question/question.component';
 import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-questionnaire',
@@ -27,7 +28,8 @@ import { Router } from '@angular/router';
     MatChipsModule,
     MatTooltipModule,
     CommonModule,
-    QuestionComponent
+    QuestionComponent,
+    HttpClientModule
   ],
   templateUrl: './create-questionnaire.component.html',
   styleUrl: './create-questionnaire.component.scss'
@@ -38,7 +40,7 @@ export class CreateQuestionnaireComponent implements OnInit{
   inputTypes = Object.entries(INPUT_TYPES).map(([type, translation]) => ({type, translation}));
   selectedInputType: string;
 
-  constructor(private fb: FormBuilder, private router: Router){}
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient){}
 
 
   ngOnInit(): void {
@@ -46,7 +48,6 @@ export class CreateQuestionnaireComponent implements OnInit{
   }  
   
   select(): void {
-    console.log('selected', (this.list.selected as MatChipOption).value);
     this.selectedInputType = (this.list.selected as MatChipOption).value;
   }
 
@@ -72,15 +73,7 @@ export class CreateQuestionnaireComponent implements OnInit{
   }
 
   onSubmit(){
-    console.log('form', this.form.value)
-    let data = localStorage.getItem('dataSource');
-    let dataSource = [];
-    data ? dataSource = JSON.parse(data) : '';
-    dataSource.push(this.form.value)
-
-    localStorage.setItem('dataSource', JSON.stringify(dataSource));
-
-    
+    this.http.post('http://localhost:8080/api/template', this.form.value).subscribe();
   }
 
   cancel(){

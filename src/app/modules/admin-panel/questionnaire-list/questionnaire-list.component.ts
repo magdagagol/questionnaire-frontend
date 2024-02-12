@@ -2,8 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ListItemComponent, OnRowItemEvent } from './list-item/list-item.component';
+import { QuestionnaireService } from '../questionnaire.service';
+import { BasicInfoTemplate } from '../questionnaire';
+import { debounceTime, filter, mergeMap, tap } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-questionnaire-list',
@@ -13,32 +19,43 @@ import { ListItemComponent, OnRowItemEvent } from './list-item/list-item.compone
     MatButtonModule, 
     MatIconModule,
     RouterLink,
-    ListItemComponent
+    ListItemComponent,
+    HttpClientModule,
+    MatDialogModule,
+    RouterModule
   ],
+  providers: [QuestionnaireService],
   templateUrl: './questionnaire-list.component.html',
   styleUrl: './questionnaire-list.component.scss'
 })
 export class QuestionnaireListComponent implements OnInit{
-  dataSource: any[];
+  dataSource: BasicInfoTemplate[];
+
+  constructor(private service: QuestionnaireService, private dialog: MatDialog, private router: Router){}
 
   ngOnInit(): void {
-    let data = localStorage.getItem('dataSource');
-    data ? this.dataSource = JSON.parse(data) : '';
+    this.loadData();
+  }
 
-
-    console.log('data', this.dataSource)
+  loadData(){
+    this.service.getTemplateList().pipe(
+      tap((data) => this.dataSource = data)
+    ).subscribe();
   }
 
   rowEvent(e: OnRowItemEvent){
     if(e.action === 'EDIT') {
-      console.log('event', e.item)
+      console.log('event', e.item.id)
+      this.router.navigate([`/admin-panel/${e.item.id}`]);
     }
     if(e.action === 'DELETE') {
-      console.log('delete', this.dataSource.indexOf(e.item))
-      this.dataSource =  this.dataSource.filter(obj => obj !== e.item);
-
-      console.log(this.dataSource)
-      localStorage.setItem('dataSource', JSON.stringify(this.dataSource));
+      this.dialog.open(ConfirmationDialogComponent, {width: '400px'}).afterClosed().pipe(
+        filter(Boolean),
+        mergeMap(() => this.service.deleteQuestionnaireTemplate(e.item.id)),
+        debounceTime(300),
+        tap(() => this.loadData())
+      )
+      .subscribe();
     }
   }
 
