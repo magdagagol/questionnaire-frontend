@@ -6,10 +6,11 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ListItemComponent, OnRowItemEvent } from './list-item/list-item.component';
 import { QuestionnaireService } from '../questionnaire.service';
 import { BasicInfoTemplate } from '../questionnaire';
-import { debounceTime, filter, mergeMap, tap } from 'rxjs';
+import { debounceTime, filter, mergeMap, takeUntil, tap } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { LeaveCycleManager } from '../../../shared/leave-cycle-manager';
 
 @Component({
   selector: 'app-questionnaire-list',
@@ -28,10 +29,12 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
   templateUrl: './questionnaire-list.component.html',
   styleUrl: './questionnaire-list.component.scss'
 })
-export class QuestionnaireListComponent implements OnInit{
+export class QuestionnaireListComponent extends LeaveCycleManager implements OnInit{
   dataSource: BasicInfoTemplate[];
 
-  constructor(private service: QuestionnaireService, private dialog: MatDialog, private router: Router){}
+  constructor(private service: QuestionnaireService, private dialog: MatDialog, private router: Router){
+    super();
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -59,7 +62,8 @@ export class QuestionnaireListComponent implements OnInit{
         filter(Boolean),
         mergeMap(() => this.service.deleteQuestionnaireTemplate(e.item.id)),
         debounceTime(300),
-        tap(() => this.loadData())
+        tap(() => this.loadData()),
+        takeUntil(this.$destroy)
       )
       .subscribe();
     }
