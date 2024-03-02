@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Tytuł ankiety</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Opis ankiety</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <div formArrayName="questions">
+    @for (question of formData.questions; track question.id; let idx = $index) {
+      <div [formGroupName]="idx">
+        <mat-chip-listbox #list aria-label="Type of inputs"> 
+          @for (type of inputTypes; track $index) {
+            <mat-chip-option [value]="type.type" [selected]="question.type == type.type" (selectionChange)="select(idx, $event)">{{type.translation}}</mat-chip-option>
+          }
+        </mat-chip-listbox>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Pytanie {{question.id}}</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
+
+        <div class="answers" formArrayName="answers">
+          @for (answer of question.answers; track answer; let ida = $index) {
+              <div formGroupName="{{ida}}">
+                  <mat-form-field appearance="outline">
+                      <mat-label>Odpowiedź</mat-label>
+                      <input matInput formControlName="label" placeholder="Napisz odpowiedź">
+                  
+                      <button matSuffix mat-icon-button color="warn" matTooltip="Usuń">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                  </mat-form-field>
+              </div>
+          }
+      </div>
+    </div>
+    }
+    <button mat-raised-button color="primary" type="submit">Zapisz</button>
+  </div>
+</form>

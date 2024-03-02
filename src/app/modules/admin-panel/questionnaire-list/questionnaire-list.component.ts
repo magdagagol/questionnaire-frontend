@@ -48,8 +48,7 @@ export class QuestionnaireListComponent extends LeaveCycleManager implements OnI
 
   rowEvent(e: OnRowItemEvent){
     if(e.action === 'EDIT') {
-      console.log('event', e.item.id)
-
+      this.router.navigate([`/admin-panel/${e.item.id}/edit`]);
     }
     if(e.action === 'SHOW') {
       this.router.navigate([`/admin-panel/${e.item.id}`]);

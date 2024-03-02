@@ -1,4 +1,5 @@
 import { INPUT_TYPES } from "./create-questionnaire/create-questionnaire";
+import { BasicFormControl } from "./questionnaire-form/questionnaire";
 
 export interface QuestionnaireTemplate {
     id: number;
