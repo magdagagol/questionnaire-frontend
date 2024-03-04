@@ -23,7 +23,7 @@ export interface Question {
 
 export interface Answer {
     id: number;
-    value: string;
+    value: string | string[];
     label: string;
 }
 

@@ -6,6 +6,21 @@
 @for (question of template.questions; track question.id) {
     <h3 style="font-weight: 500;">{{question.title}}</h3>
     @for(answer of question.answers; track answer.id){
-        <p>{{answer.label}}: {{answer.value}}</p> 
+        <p>{{answer.label}}: </p> 
+        <mat-form-field class="example-chip-list">
+            <mat-label>Favorite Fruits</mat-label>
+            <mat-chip-grid #chipGrid aria-label="Enter fruits">
+              @for (item of answer.value; track item) {
+                <mat-chip-row
+                  (removed)="remove(item, answer.id)">
+                  {{item}}
+                  <button matChipRemove [attr.aria-label]="'remove ' + item">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+              }
+              <input readonly [matChipInputFor]="chipGrid"/>
+            </mat-chip-grid>
+          </mat-form-field>
     }
 }
