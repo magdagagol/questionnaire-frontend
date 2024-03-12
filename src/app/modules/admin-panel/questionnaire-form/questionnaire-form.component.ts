@@ -29,7 +29,8 @@ import { QuestionComponent } from '../create-questionnaire/question/question.com
     MatTooltipModule,
     CommonModule,
     QuestionComponent,
-    HttpClientModule
+    HttpClientModule,
+    MatTooltipModule
   ],
   templateUrl: './questionnaire-form.component.html',
   styleUrl: './questionnaire-form.component.scss'
@@ -86,8 +87,35 @@ export class QuestionnaireFormComponent implements OnInit {
     return this.form.get('questions') as FormArray;
   }
 
+  addQuestion(){
+    this.questions.push(new FormGroup({
+      title: new FormControl(),
+      type: new FormControl(),
+      answers: new FormArray([])
+    }));
+  }
+
+  getAnswers(questionId: number) {
+    return this.questions.at(questionId).get('answers') as FormArray;
+  }
+
+  remove(item: number){
+    this.questions.removeAt(item);
+  }
+
+  removeAnswer(item: number, questionId: number){
+    this.getAnswers(questionId).removeAt(item);
+  }
+
+  addAnswer(questionId: number){
+    this.getAnswers(questionId).push(new FormGroup({
+      label: new FormControl(),
+      value: new FormControl()
+    }));
+  }
+
   onSubmit(){
-    this.saveFormEvent.emit(this.form.value)
+    this.saveFormEvent.emit(this.form.value);
   }
 
 }

@@ -1,0 +1,40 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.mdc-card {
+    margin-bottom: 10px;
+}
+
+.mat-mdc-card-content > div {
+    display: flex;
+    flex-direction: row;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+mat-chip-listbox {
+    margin-bottom: 20px;
+}
+
+.mat-mdc-card-content > div.answers {
+    flex-direction: column;
+}
+
+.mat-mdc-card-content > div:last-child {
+    justify-content: center;
+}
+
+.action {
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    margin-bottom: 30px;
+}
+
+.action button {
+    width: 100%;
+}
